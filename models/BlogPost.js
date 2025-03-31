@@ -27,7 +27,7 @@ const PostSchema = new mongoose.Schema({
     default: Date.now
   }
 }, {});
-const Post = mongoose.model("Post", PostSchema, "Posts");
+const Post = mongoose.model("Post", PostSchema);
 
 //TODO  fix schema, add automatic id and date created and ensure that the other parameters are filled in
 
