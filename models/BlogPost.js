@@ -22,6 +22,11 @@ const PostSchema = new mongoose.Schema({
     required: false,
     default: null,
   },
+  featured: {
+    type: Boolean,
+    require: false,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now
