@@ -1,6 +1,7 @@
 import express from "express";
 import {getPosts} from "../controllers/PostController.js";
 import { importTestPosts } from "../controllers/PostController.js";
+import { createPost } from "../controllers/PostController.js";
 
 const postRouter = express.Router();
 
@@ -10,5 +11,11 @@ const postRouter = express.Router();
 
 postRouter.get("/", getPosts);
 postRouter.post("/import", importTestPosts);
+
+// @desc create a post and its content
+// @route POST /api/posts/create
+// @access Public
+
+postRouter.get("/create", createPost);
 
 export default postRouter;
