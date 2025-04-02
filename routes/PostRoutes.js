@@ -16,6 +16,6 @@ postRouter.post("/import", importTestPosts);
 // @route POST /api/posts/create
 // @access Public
 
-postRouter.get("/create", createPost);
+postRouter.post("/create", createPost);
 
 export default postRouter;
