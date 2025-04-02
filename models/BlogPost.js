@@ -4,7 +4,8 @@ const PostSchema = new mongoose.Schema(
   {
     PostType: {
       type: String,
-      required: true,
+      required: false,
+      default: "Blog",
     },
     PostLenght: {
       type: String,
