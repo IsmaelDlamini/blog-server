@@ -2,6 +2,8 @@ import asyncHandler from "express-async-handler";
 import Post from "../models/BlogPost.js";
 import { data } from "../data/importData.js";
 import PostContent from "../models/PostContent.js";
+import mongoose from "mongoose";
+
 
 // @desc  Get all posts
 // @route GET /api/posts
@@ -32,7 +34,7 @@ export const getPosts = asyncHandler(async (req, res) => {
 export const getPostById = asyncHandler(async (req, res) => {
   const id = req.body.id;
 
-  const post = await Post.FindById(id);
+  const post = await Post.findById(id);
 
   res.json(post);
 });
@@ -59,7 +61,7 @@ export const deletePostById = asyncHandler(async (req, res) => {
 export const createPost = asyncHandler(async (req, res) => {
   const {
     PostType,
-    PostLenght,
+    PostLength,
     PostTitle,
     PostDescription,
     PostImage,
@@ -76,7 +78,7 @@ export const createPost = asyncHandler(async (req, res) => {
       [
         {
           PostType,
-          PostLenght,
+          PostLength,
           PostTitle,
           PostDescription,
           PostImage,
