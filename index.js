@@ -9,6 +9,8 @@ const port = 3000;
 
 dotenv.config();
 const app = express();
+app.use(express.json()); // Add this to parse JSON body
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 
 app.use(cors())
 

@@ -61,11 +61,11 @@ export const deletePostById = asyncHandler(async (req, res) => {
 export const createPost = asyncHandler(async (req, res) => {
   const {
     PostType,
-    PostLength,
+    PostLenght,
     PostTitle,
     PostDescription,
     PostImage,
-    PostContent,
+    PostContentText,
     PostAuthor,
   } = req.body;
 
@@ -78,11 +78,11 @@ export const createPost = asyncHandler(async (req, res) => {
       [
         {
           PostType,
-          PostLength,
+          PostLenght,
           PostTitle,
           PostDescription,
           PostImage,
-          PostContent,
+          PostContentText,
           PostAuthor,
         },
       ],
@@ -94,7 +94,7 @@ export const createPost = asyncHandler(async (req, res) => {
       [
         {
           postId: post[0]._id,
-          content: PostContent,
+          content: PostContentText,
         },
       ],
       { session }
@@ -105,11 +105,15 @@ export const createPost = asyncHandler(async (req, res) => {
     session.endSession();
 
     console.log("Post and PostContent created successfully!");
+
+    res.status(201).json({ message: "Post created successfully", post });
+
   } catch (error) {
     // Rollback in case of failure
     await session.abortTransaction();
     session.endSession();
     console.error("Transaction failed:", error);
+    res.status(500).json({ error: "Internal server error, ismaeil", details: error.message });
   }
 });
 
