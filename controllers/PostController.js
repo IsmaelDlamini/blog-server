@@ -3,7 +3,7 @@ import Post from "../models/BlogPost.js";
 import { data } from "../data/importData.js";
 import PostContent from "../models/PostContent.js";
 import mongoose from "mongoose";
-
+import User from "../models/User.js";
 
 // @desc  Get all posts
 // @route GET /api/posts
@@ -39,6 +39,18 @@ export const getPostById = asyncHandler(async (req, res) => {
   res.json(post);
 });
 
+// @desc get single post content
+// @route GET /api/posts/content/:id
+// @access Public
+
+export const getPostContentById = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const postContent = await PostContent.findOne({ postId: id });
+
+  res.json(postContent);
+});
+
 // @desc delete a post
 // @route DELETE /api/posts/:id
 // @access Public
@@ -67,13 +79,13 @@ export const createPost = asyncHandler(async (req, res) => {
     PostImage,
     PostContentText,
     PostAuthor,
+    PostAuthorId,
   } = req.body;
 
   const session = await mongoose.startSession();
   session.startTransaction(); // Start a transaction
 
   try {
-    // Step 1: Create the Post document
     const post = await Post.create(
       [
         {
@@ -84,12 +96,12 @@ export const createPost = asyncHandler(async (req, res) => {
           PostImage,
           PostContentText,
           PostAuthor,
+          PostAuthorId,
         },
       ],
       { session }
     );
 
-    // Step 2: Create the PostContent document using the Post's _id
     const postContent = await PostContent.create(
       [
         {
@@ -100,20 +112,76 @@ export const createPost = asyncHandler(async (req, res) => {
       { session }
     );
 
-    // Step 3: Commit the transaction
+    const userPostsUpdate = await User.findByIdAndUpdate(
+      PostAuthorId,
+      { $push: { posts: [post[0]._id] } },
+      { new: true, session }
+    );
+
     await session.commitTransaction();
     session.endSession();
 
     console.log("Post and PostContent created successfully!");
 
     res.status(201).json({ message: "Post created successfully", post });
-
   } catch (error) {
-    // Rollback in case of failure
     await session.abortTransaction();
     session.endSession();
     console.error("Transaction failed:", error);
-    res.status(500).json({ error: "Internal server error, ismaeil", details: error.message });
+    res.status(500).json({
+      error: "Internal server error, ismaeil",
+      details: error.message,
+    });
+  }
+});
+
+// @desc delete post
+// @route DELETE /api/posts/delete/:id
+// @access Public
+
+export const deletePost = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const deletedPost = await Post.findByIdAndDelete(id, { session });
+
+    if (!deletedPost) {
+      throw new Error("Post not found");
+    }
+
+    const deletedPostContent = await PostContent.deleteOne(
+      { postId: id },
+      { session }
+    );
+
+    if (deletedPostContent.deletedCount === 0) {
+      throw new Error("Post content not found");
+    }
+
+    const removePostIdFromUser = await User.findByIdAndUpdate(
+      deletedPost.PostAuthorId,
+      { $pull: { posts: id } },
+      { new: true, session }
+    );
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({
+      message: "Post and its content deleted successfully",
+      post: deletedPost,
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    console.error("Transaction failed:", error);
+    res.status(500).json({
+      error: "Internal server error",
+      details: error.message,
+    });
   }
 });
 
