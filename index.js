@@ -20,6 +20,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser()); // Parse cookies
 
+
 app.use(express.json()); // Add this to parse JSON body
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 
