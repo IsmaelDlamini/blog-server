@@ -199,6 +199,7 @@ export const deleteUser = asyncHandler(async (req, res) => {
       error: "Internal server error",
       details: error.message,
     });
+  }
   
 })
 
