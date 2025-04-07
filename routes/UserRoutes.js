@@ -7,7 +7,7 @@ const userRouter = express.Router();
 
 // @desc get all users
 // @route GET /api/users/
-// @access Public
+// @access Private
 
 userRouter.get("/", getAllUsers);
 
@@ -31,9 +31,16 @@ userRouter.get("/userInfo", verifyToken , fetchUserInfo);
 
 // @desc logout user
 // @route GET /api/users/logout
-// @access Public
+// @access Private
 
 userRouter.post("/logout", logout);
+
+// @desc delete user
+// @route GET /api/users/delete/:id
+// @access Private
+
+userRouter.delete("/delete/:id", );
+
 
 export default userRouter;
 
