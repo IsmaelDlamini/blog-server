@@ -157,7 +157,7 @@ export const logout = asyncHandler(async (req, res) => {
 
 export const getAllUsers = asyncHandler(async (req, res) => {
 
-  const allUsers = await User.findAll({});
+  const allUsers = await User.find({});
 
   res.json({
       message: "successfully fetched all users",
