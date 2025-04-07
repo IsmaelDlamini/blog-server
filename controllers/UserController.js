@@ -149,3 +149,26 @@ export const logout = asyncHandler(async (req, res) => {
     res.status(200).json({ message: "User logged out successfully" });
 
 })
+
+
+// @desc logout user
+// @route GET /api/users/
+// @access Public
+
+export const getAllUsers = asyncHandler(async (req, res) => {
+
+  const allUsers = await User.findAll();
+
+  res.json({
+      message: "successfully fetched all users",
+      users: allUsers,
+  })
+  
+})
+
+
+
+
+
+
+
