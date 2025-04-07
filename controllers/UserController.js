@@ -167,6 +167,43 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 })
 
 
+// @desc delete user
+// @route GET /api/users/delete/:id
+// @access Public
+
+
+export const deleteUser = asyncHandler(async (req, res) => {
+
+  const {id} = req.body;
+  
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+
+    const deletedUser = await User.findByIdAndDelete(id, {session} );
+
+    //const deletedUserPosts = deletedUser.posts;
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({
+      message: "user and their content deleted successfully",
+      user: deletedUser,
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    console.error("Transaction failed:", error);
+    res.status(500).json({
+      error: "Internal server error",
+      details: error.message,
+    });
+  
+})
+
+
 
 
 
