@@ -1,5 +1,5 @@
 import express from "express";
-import { fetchUserInfo, logout, registerUser, getAllUsers } from "../controllers/UserController.js";
+import { fetchUserInfo, logout, registerUser, getAllUsers, deleteUser } from "../controllers/UserController.js";
 import { login } from "../controllers/UserController.js";
 import { verifyToken } from "../config/jwtAuth.js";
 
@@ -39,7 +39,7 @@ userRouter.post("/logout", logout);
 // @route GET /api/users/delete/:id
 // @access Private
 
-userRouter.delete("/delete/:id", );
+userRouter.delete("/delete/:id", deleteUser);
 
 
 export default userRouter;
