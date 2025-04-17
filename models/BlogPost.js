@@ -26,7 +26,7 @@ const PostSchema = new mongoose.Schema(
     },
     featured: {
       type: Boolean,
-      require: false,
+      required: false,
       default: false,
     },
     PostAuthor: {
@@ -38,6 +38,14 @@ const PostSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
+    numberOfComments: {
+      type: Number,
+      default: 0,
+    },
+    numberOfLikes: {
+      type: Number,
+      default: 0,
+    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -45,6 +53,7 @@ const PostSchema = new mongoose.Schema(
   },
   {}
 );
+
 const Post = mongoose.model("Post", PostSchema);
 
 //TODO  fix schema, add automatic id and date created and ensure that the other parameters are filled in
