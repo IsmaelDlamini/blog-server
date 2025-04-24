@@ -33,6 +33,7 @@ const UserSchema = new mongoose.Schema({
     ref: "posts",
     default: [],
   },
+  
   createdAt: {
     type: Date,
     default: Date.now,
