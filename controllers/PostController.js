@@ -52,7 +52,7 @@ export const getPostContentById = asyncHandler(async (req, res) => {
   console.log("User ID:", _userId);
   console.log("Post ID:", id);
 
-  var liked = false;
+  let liked = false;
 
   if (mongoose.Types.ObjectId.isValid(_userId)) {
     const userLikedPost = await Like.findOne({ 
