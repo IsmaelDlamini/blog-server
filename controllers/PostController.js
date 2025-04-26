@@ -4,6 +4,7 @@ import { data } from "../data/importData.js";
 import PostContent from "../models/PostContent.js";
 import mongoose from "mongoose";
 import User from "../models/User.js";
+import Like from "../models/Like.js";
 
 // @desc  Get all posts
 // @route GET /api/posts
@@ -46,9 +47,24 @@ export const getPostById = asyncHandler(async (req, res) => {
 export const getPostContentById = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
+  const _userId = req.user.userId;
+
+  console.log("User ID:", _userId);
+  console.log("Post ID:", id);
+
+  var liked = false;
+
+  if (mongoose.Types.ObjectId.isValid(_userId)) {
+    const userLikedPost = await Like.findOne({ 
+      userId: mongoose.Types.ObjectId(_userId), 
+      postId: mongoose.Types.ObjectId(id) 
+    });
+    if (userLikedPost != null) liked = true;
+  }
+
   const postContent = await PostContent.findOne({ postId: id });
 
-  res.json(postContent);
+  res.json({ content: postContent, liked: liked });
 });
 
 // @desc delete a post
@@ -191,4 +207,3 @@ export const importTestPosts = asyncHandler(async (req, res) => {
   const sentPosts = await Post.create(data);
   res.json({ message: "Posts have been added", data: sentPosts });
 });
-
