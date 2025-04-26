@@ -62,7 +62,7 @@ export const getPostContentById = asyncHandler(async (req, res) => {
     if (userLikedPost != null) liked = true;
   }
 
-  const post = await Post.findById(id);
+  const post = await Post.findOne({_id: id});
 
   const postContent = await PostContent.findOne({ postId: id });
 
