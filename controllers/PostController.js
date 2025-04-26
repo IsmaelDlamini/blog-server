@@ -56,8 +56,8 @@ export const getPostContentById = asyncHandler(async (req, res) => {
 
   if (mongoose.Types.ObjectId.isValid(_userId)) {
     const userLikedPost = await Like.findOne({ 
-      userId: mongoose.Types.ObjectId(_userId), 
-      postId: mongoose.Types.ObjectId(id) 
+      userId: _userId, 
+      postId: id, 
     });
     if (userLikedPost != null) liked = true;
   }
