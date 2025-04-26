@@ -62,11 +62,11 @@ export const getPostContentById = asyncHandler(async (req, res) => {
     if (userLikedPost != null) liked = true;
   }
 
-  const numberOfLikes = await Post.findById(id);
+  const post = await Post.findById(id);
 
   const postContent = await PostContent.findOne({ postId: id });
 
-  res.json({ content: postContent, liked: liked, numberOfLikes: numberOfLikes?.numberOfLikes || null});
+  res.json({ content: postContent, liked: liked, numberOfLikes: post?.numberOfLikes || null});
 });
 
 // @desc delete a post
