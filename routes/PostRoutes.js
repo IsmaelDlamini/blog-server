@@ -4,6 +4,7 @@ import { importTestPosts } from "../controllers/PostController.js";
 import { createPost } from "../controllers/PostController.js";
 import { deletePost } from "../controllers/PostController.js";
 import Post from "../models/BlogPost.js";
+import { checkForTokenWeak, verifyToken } from "../config/jwtAuth.js";
 
 const postRouter = express.Router();
 
@@ -21,7 +22,7 @@ postRouter.post("/create", createPost);
 // @desc get the content of a post
 // @route POST /api/posts/content/:id
 
-postRouter.get("/content/:id", getPostContentById);
+postRouter.get("/content/:id", checkForTokenWeak , getPostContentById);
 
 // @desc delete a post
 // @route DELETE /api/posts/delete/:id
