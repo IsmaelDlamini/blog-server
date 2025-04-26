@@ -115,7 +115,7 @@ export const login = asyncHandler(async (req, res) => {
 
 export const fetchUserInfo = asyncHandler(async (req, res) => {
 
-    const userId = req.user.userId; 
+    const userId = req.user.userId; // the middleware will set this value for us
     
     if (!mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(400).json({ message: "Invalid user ID" });
