@@ -6,6 +6,7 @@ import ConnectMongo from "./mongodb/setup.js"
 import postRouter from './routes/PostRoutes.js';
 import userRouter from './routes/UserRoutes.js';
 import cookieParser from 'cookie-parser';
+import likeRouter from './routes/LikeRoutes.js';
 
 const port = 3000;
 
@@ -30,7 +31,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/posts", postRouter)
 app.use("/api/users", userRouter)
-
+app.use("/api/likes", likeRouter)
 
 ConnectMongo();
 
