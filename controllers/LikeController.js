@@ -20,6 +20,12 @@ export const toggleLike = asyncHandler(async (req, res) => {
       // Remove like (unlike)
       await Like.deleteOne({ _id: existingLike._id }, { session });
 
+    await Post.findByIdAndUpdate(
+        postId,
+        { $inc: { numberOfLikes: -1 } }, // Increment by 1
+        { new: true, session }
+      );
+
       await session.commitTransaction();
       session.endSession();
 
@@ -27,6 +33,12 @@ export const toggleLike = asyncHandler(async (req, res) => {
     }
 
     const newLike = await Like.create([{ userId, postId }], { session });
+
+    await Post.findByIdAndUpdate(
+      postId,
+      { $inc: { numberOfLikes: 1 } }, // Increment by 1
+      { new: true, session }
+    );
 
     await session.commitTransaction();
     session.endSession();
