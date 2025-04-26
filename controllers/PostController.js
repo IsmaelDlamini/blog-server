@@ -62,7 +62,7 @@ export const getPostContentById = asyncHandler(async (req, res) => {
     if (userLikedPost != null) liked = true;
   }
 
-  const numberOfLikes = await Post.findOne({_id: id})
+  const numberOfLikes = await Post.findById(id);
 
   const postContent = await PostContent.findOne({ postId: id });
 
