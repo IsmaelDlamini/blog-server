@@ -1,14 +1,16 @@
 
 import express from "express";
-import Like from "../models/Like"
-import { createLike } from "../controllers/LikeController";
+import { toggleLike } from "../controllers/LikeController.js";
+import { verifyToken } from "../config/jwtAuth.js";
 
-const likeRouter = Router();
+const likeRouter = express.Router();
 
 // @desc create a like
 // @route POST /api/likes
 
-likeRouter.post("/create", createLike);
+likeRouter.post("/toggle", toggleLike);
+
+export default likeRouter;
 
 
 
