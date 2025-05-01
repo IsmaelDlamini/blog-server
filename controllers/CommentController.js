@@ -33,8 +33,10 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
 
   let fetchedCommentsResult = [];
 
-  if (mongoose.Types.ObjectId.isValid(_userId) && _userId != null) {
+  if (mongoose.Types.ObjectId.isValid(_userId)) {
     const fetchedComments = await Comment.find({ postId: _postId }); // return all comments in collection
+
+    console.log("hello");
 
     const fetchedLikes = await CommentLike.find({
       likeAuthorId: _userId,
@@ -53,7 +55,9 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
       };
     });
   } else {
+
     fetchedCommentsResult = await Comment.find({ postId: _postId });
+
   }
 
   res.json({
