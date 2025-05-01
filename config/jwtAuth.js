@@ -28,8 +28,6 @@ export const checkForTokenWeak = async (req, res, next) => {
   try {
     const token = req.cookies.token; // Read token from cookies
 
-    console.log("Token:", token); // Log the token
-
     if (token) {
       const decoded = await jwt.verify(token, process.env.SECRET_KEY);
       // Attach the decoded user to the request
