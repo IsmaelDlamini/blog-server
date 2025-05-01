@@ -47,7 +47,7 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
 
     const likeMap = new Map();
     fetchedLikes.forEach((like) => {
-      likeMap.set(like.commentId, true);
+      likeMap.set(like.likeCommentId, true);
     });
 
     fetchedCommentsResult = fetchedComments.map((comment) => {
