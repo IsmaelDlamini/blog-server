@@ -77,6 +77,7 @@ export const ToggleCommmentLike = asyncHandler(async (req, res) => {
 
     console.log(commentId)
     console.log(_postId)
+    console.log(authorId)
 
     const likeExists = await CommentLike.findOne({
       likeAuthorId: authorId,
