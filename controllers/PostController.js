@@ -47,10 +47,7 @@ export const getPostById = asyncHandler(async (req, res) => {
 export const getPostContentById = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
-  const _userId = req.user.userId;
-
-  console.log("User ID:", _userId);
-  console.log("Post ID:", id);
+  const _userId = req.user.userId; // pass it through the weak jwt middleware 
 
   let liked = false;
 
