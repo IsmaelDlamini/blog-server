@@ -20,6 +20,14 @@ const commentSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
+    numberOfLikes: {
+      type: Number,
+      default: 0,
+    },
+    numberOfReplies: {
+      type: Number,
+      default: 0,
+    }
   },
   { timestamps: true }
 );
