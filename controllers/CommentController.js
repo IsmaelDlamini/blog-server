@@ -98,11 +98,11 @@ export const ToggleCommmentLike = asyncHandler(async (req, res) => {
       });
     } else {
       const createCommentLike = await CommentLike.create(
-        {
+        [{
           likeAuthorId: authorId,
           likeCommentId: commentId,
           postId: _postId,
-        },
+        }],
         { session }
       );
 
