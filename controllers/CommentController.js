@@ -36,8 +36,6 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(_userId)) {
     const fetchedComments = await Comment.find({ postId: _postId }); // return all comments in collection
 
-    console.log("hello");
-
     const fetchedLikes = await CommentLike.find({
       likeAuthorId: _userId,
       postId: _postId,
@@ -68,7 +66,9 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
 
 
 export const ToggleCommmentLike = asyncHandler(async (req, res) => {
-  const { authorId, commentId, _postId } = req.body;
+  const { commentId, postId } = req.body;
+
+  const authorId = req.user.userId;
 
   const session = await mongoose.startSession();
   session.startTransaction(); // start the transaction
