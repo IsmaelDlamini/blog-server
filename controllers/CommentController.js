@@ -66,7 +66,7 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
 
 
 export const ToggleCommmentLike = asyncHandler(async (req, res) => {
-  const { commentId, postId } = req.body;
+  const { commentId, _postId } = req.body;
 
   const authorId = req.user.userId;
 
@@ -75,9 +75,9 @@ export const ToggleCommmentLike = asyncHandler(async (req, res) => {
 
   try {
     const likeExists = await CommentLike.findOne({
-      authorId,
-      commentId,
-      postId,
+      likeAuthorId: authorId,
+      likeCommentId: commentId,
+      postId: _postId,
     });
 
     if (likeExists) {
@@ -99,9 +99,9 @@ export const ToggleCommmentLike = asyncHandler(async (req, res) => {
     } else {
       const createCommentLike = await CommentLike.create(
         {
-          authorId,
-          commentId,
-          postId,
+          likeAuthorId: authorId,
+          likeCommentId: commentId,
+          postId: _postId,
         },
         { session }
       );
