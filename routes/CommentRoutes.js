@@ -9,9 +9,8 @@ const commentRouter = express.Router();
 // @route /api/comments/add
 
 commentRouter.post("/create", CreateComment);
-commentRouter.get("/", checkForTokenWeak, fetchAllCommentsForPost);
+commentRouter.get("/:_postId", checkForTokenWeak, fetchAllCommentsForPost);
 commentRouter.post("/toggleLike", ToggleCommmentLike)
-
 
 export default commentRouter;
 

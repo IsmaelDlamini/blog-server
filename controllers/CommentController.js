@@ -28,7 +28,7 @@ export const CreateComment = asyncHandler(async (req, res) => {
 // @access Public
 
 export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
-  const { _postId } = req.body;
+  const { _postId } = req.params; // Match the route definition: /api/comments/:postId
   const _userId = req.user.userId;
 
   let fetchedCommentsResult = [];
