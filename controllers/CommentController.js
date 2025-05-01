@@ -74,6 +74,10 @@ export const ToggleCommmentLike = asyncHandler(async (req, res) => {
   session.startTransaction(); // start the transaction
 
   try {
+
+    console.log(commentId)
+    console.log(_postId)
+
     const likeExists = await CommentLike.findOne({
       likeAuthorId: authorId,
       likeCommentId: commentId,
