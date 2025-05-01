@@ -43,13 +43,13 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
 
     const likeMap = new Map();
     fetchedLikes.forEach((like) => {
-      likeMap.set(like.commentId.toString(), true);
+      likeMap.set(like.commentId, true);
     });
 
     fetchedCommentsResult = fetchedComments.map((comment) => {
       return {
         ...comment.toObject(),
-        likedByUser: likeMap.has(comment._id.toString()),
+        likedByUser: likeMap.has(comment._id),
       };
     });
   } else {
