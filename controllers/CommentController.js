@@ -36,10 +36,14 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(_userId)) {
     const fetchedComments = await Comment.find({ postId: _postId }); // return all comments in collection
 
+    console.log(fetchedComments)
+
     const fetchedLikes = await CommentLike.find({
       likeAuthorId: _userId,
       postId: _postId,
     });
+
+    console.log(fetchedLikes)
 
     const likeMap = new Map();
     fetchedLikes.forEach((like) => {
