@@ -71,41 +71,36 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
 
 export const ToggleCommmentLike = asyncHandler(async (req, res) => {
   const { commentId, _postId } = req.body;
-
   const authorId = req.user.userId;
 
   const session = await mongoose.startSession();
   session.startTransaction(); // start the transaction
 
   try {
-
-    console.log(commentId)
-    console.log(_postId)
-    console.log(authorId)
-
+    // Check if the like exists for the given comment and post
     const likeExists = await CommentLike.findOne({
       likeAuthorId: authorId,
       likeCommentId: commentId,
       postId: _postId,
-    });
+    }).session(session); // Ensure the query runs within the session
 
     if (likeExists) {
+      // If like exists, remove it and decrement the like count
       await CommentLike.deleteOne({ _id: likeExists._id }, { session });
 
       await Comment.findByIdAndUpdate(
         commentId,
-        { $inc: { numberOfLikes: -1 } }, // Increment by 1
+        { $inc: { numberOfLikes: -1 } }, // Decrement by 1
         { new: true, session }
       );
 
       await session.commitTransaction();
-      session.endSession();
-
-      res.json({
-        message: "like has been removed successfully!",
+      return res.json({
+        message: "Like has been removed successfully!",
         removedLike: likeExists,
       });
     } else {
+      // If like doesn't exist, create a new like and increment the like count
       const createCommentLike = await CommentLike.create(
         [{
           likeAuthorId: authorId,
@@ -117,20 +112,22 @@ export const ToggleCommmentLike = asyncHandler(async (req, res) => {
 
       const updateNumberOfLikes = await Comment.findByIdAndUpdate(
         commentId,
-        { $inc: { numberOfLikes: +1 } }, // Increment by 1
+        { $inc: { numberOfLikes: 1 } }, // Increment by 1
         { new: true, session }
       );
 
       await session.commitTransaction();
-      session.endSession();
-
-      res.json({ message: "like has been added!", like: createCommentLike });
+      return res.json({
+        message: "Like has been added!",
+        like: createCommentLike,
+        updatedLikeCount: updateNumberOfLikes.numberOfLikes,
+      });
     }
   } catch (error) {
+    // Ensure session is aborted and cleaned up
     await session.abortTransaction();
-    session.endSession();
-    res
-      .status(500)
-      .json({ message: "Transaction failed", error: error.message });
+    return res.status(500).json({ message: "Transaction failed", error: error.message });
+  } finally {
+    session.endSession(); // Ensure the session ends in any case
   }
 });
