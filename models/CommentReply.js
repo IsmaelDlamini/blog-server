@@ -20,6 +20,21 @@ const commentReplySchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
+    isReplyingToCommentReply: {
+      type: Boolean,
+      required: true,
+    },
+    replyIdRepliedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "commentReply",
+      required: false,
+      default: null
+    }, 
+    numberOfResponses: {
+      type: Number,
+      default: 0,
+    }
+
   },
   { timestamps: true }
 );
