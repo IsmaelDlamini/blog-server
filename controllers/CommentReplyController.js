@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import CommentReply from "../models/CommentReply";
+import CommentReply from "../models/CommentReply.js";
 import asyncHandler from "express-async-handler";
 
 // @desc
