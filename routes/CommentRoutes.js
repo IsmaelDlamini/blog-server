@@ -15,6 +15,6 @@ const commentRouter = express.Router();
 commentRouter.post("/create", CreateComment);
 commentRouter.get("/:_postId", checkForTokenWeak, fetchAllCommentsForPost);
 commentRouter.post("/toggleLike", checkForTokenWeak, ToggleCommmentLike);
-commentRouter.post("/commentReply/create", createCommentReply);
+commentRouter.post("/commentReply/create",checkForTokenWeak,  createCommentReply);
 
 export default commentRouter;
