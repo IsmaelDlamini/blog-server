@@ -5,7 +5,7 @@ import {
   ToggleCommmentLike,
 } from "../controllers/CommentController.js";
 import { checkForTokenWeak } from "../config/jwtAuth.js";
-import { createCommentReply } from "../controllers/CommentReplyController.js";
+import { createCommentReply, fetchCommentReplies } from "../controllers/CommentReplyController.js";
 
 const commentRouter = express.Router();
 
@@ -13,8 +13,14 @@ const commentRouter = express.Router();
 // @route /api/comments/add
 
 commentRouter.post("/create", CreateComment);
-commentRouter.get("/:_postId", checkForTokenWeak, fetchAllCommentsForPost);
+
 commentRouter.post("/toggleLike", checkForTokenWeak, ToggleCommmentLike);
-commentRouter.post("/commentReply/create",checkForTokenWeak,  createCommentReply);
+commentRouter.post("/commentReplies/create",checkForTokenWeak,  createCommentReply);
+
+//fetch comment replies
+
+commentRouter.post("/commentReplies", fetchCommentReplies);
+
+commentRouter.get("/:_postId", checkForTokenWeak, fetchAllCommentsForPost);
 
 export default commentRouter;

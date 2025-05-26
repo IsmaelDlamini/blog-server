@@ -33,7 +33,15 @@ const commentReplySchema = new mongoose.Schema(
     numberOfResponses: {
       type: Number,
       default: 0,
-    }
+    }, 
+    numberOfLikes: {
+      type: Number,
+      default: 0,
+    },
+    commentRepliedtoAuthorName: {
+      type: String,
+      requred: true,
+    },
 
   },
   { timestamps: true }
