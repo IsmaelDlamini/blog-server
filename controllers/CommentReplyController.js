@@ -18,7 +18,7 @@ export const createCommentReply = asyncHandler(async (req, res) => {
     _commentRepliedToAuthor,
   } = req.body;
 
-  const createdComment = CommentReply.create({
+  const createdComment = await CommentReply.create({
     commentId: _commentId,
     replyText: _replyText,
     authorName: _authorName,
