@@ -12,6 +12,11 @@ const CommentReplyLikeSchema = new mongoose.Schema(
       ref: "commentReplies",
       required: true,
     },
+    parentCommentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "comments",
+      required: true,
+    }
   },
   {
     timestamps: true,
