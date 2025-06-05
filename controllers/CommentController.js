@@ -9,6 +9,7 @@ import CommentLike from "../models/CommentLikeModel.js";
 
 export const CreateComment = asyncHandler(async (req, res) => {
   const { _userId, _postId, _commentText, _authorName } = req.body;
+  
 
   const createdComment = await Comment.create({
     postId: _postId,
@@ -36,14 +37,10 @@ export const fetchAllCommentsForPost = asyncHandler(async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(_userId)) {
     const fetchedComments = await Comment.find({ postId: _postId }); // return all comments in collection
 
-    console.log(fetchedComments)
-
     const fetchedLikes = await CommentLike.find({
       likeAuthorId: _userId,
       postId: _postId,
     });
-
-    console.log(fetchedLikes)
 
     const likeMap = new Map();
     fetchedLikes.forEach((like) => {
