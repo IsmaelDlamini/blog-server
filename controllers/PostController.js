@@ -15,7 +15,7 @@ export const getPosts = asyncHandler(async (req, res) => {
   page = parseInt(page);
   limit = parseInt(limit);
 
-  const posts = await Post.find()
+  const posts = await Post.find({featured: false})
     .sort({ createdAt: -1 }) // Sort by newest posts first
     .skip((page - 1) * limit) // Skip previous pages' posts
     .limit(limit); // Limit results
@@ -151,6 +151,21 @@ export const createPost = asyncHandler(async (req, res) => {
     });
   }
 });
+
+
+// @desc fetch featured post
+// @route GET /api/posts/featured
+// @access Public
+
+export const fetchFeaturedPost = asyncHandler(async (req, res) => {
+
+  const featuredPost = await Post.find({featured: true});
+
+  res.status(200).json({message: "Featured Post Found.", Post: featuredPost})
+
+})
+
+
 
 // @desc delete post
 // @route DELETE /api/posts/delete/:id

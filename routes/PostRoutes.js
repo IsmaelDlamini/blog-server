@@ -1,5 +1,5 @@
 import express from "express";
-import {getPostContentById, getPosts} from "../controllers/PostController.js";
+import {fetchFeaturedPost, getPostContentById, getPosts} from "../controllers/PostController.js";
 import { importTestPosts } from "../controllers/PostController.js";
 import { createPost } from "../controllers/PostController.js";
 import { deletePost } from "../controllers/PostController.js";
@@ -28,6 +28,11 @@ postRouter.get("/content/:id", checkForTokenWeak , getPostContentById);
 // @route DELETE /api/posts/delete/:id
 
 postRouter.delete("/delete/:id", deletePost);
+
+// @desc delete a post
+// @route DELETE /api/posts/delete/:id
+
+postRouter.get("/featured", fetchFeaturedPost);
 
 // // routes/posts.js
 // postRouter.patch("/init-fields", async (req, res) => {
